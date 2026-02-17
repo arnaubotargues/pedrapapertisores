@@ -1,3 +1,6 @@
+
+
+
    let humanScore = 0;
 let computerScore= 0;
 
@@ -11,20 +14,7 @@ function getComputerChoice(){
 }
 
 
-function getHumanChoice(){
-    let humanChoice = prompt("0.Pedra, 1.Paper, 2.Tisores");
-    if(humanChoice =="0"){
-        humanChoice = 0;
-    }
-    if(humanChoice == "1"){
-        humanChoice = 1;
-    }
-    if(humanChoice == "2"){
-        humanChoice =2;
-    }
-    console.log(humanChoice);
-    return humanChoice;
-}
+
 
 
 
@@ -38,21 +28,46 @@ function playRound(humanChoice,computerChoice){
     }else{
     computerScore= computerScore + 1;
     }
-    
+
     
 }
 
     
 
-    function playGame(){
-        
-            let i = 0;
-            while (i<=4){
-             playRound(getHumanChoice(),getComputerChoice());  
-             i++;  
-            }
-            
-    }
-    playGame();
-    console.log("humanscore=" + humanScore);
-    console.log("computerScore="+ computerScore);
+
+
+const buttons = document.querySelectorAll("button");
+
+// Crear el div per mostrar els resultats
+const container = document.querySelector("#container");
+const resultats = document.createElement("div");
+resultats.classList.add("resultats");
+container.appendChild(resultats);
+
+// Afegir els listeners als botons
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        let humanChoice;
+
+        if (button.textContent.trim() === "Pedra") humanChoice = 0;
+        if (button.textContent.trim() === "Paper") humanChoice = 1;
+        if (button.textContent.trim() === "Tisores") humanChoice = 2;
+
+        const computerChoice = getComputerChoice();
+        playRound(humanChoice, computerChoice);
+
+        // Actualitzar el div amb la informació de la ronda
+        resultats.textContent = 
+            `Tu: ${humanChoice}, Ordinador: ${computerChoice} | 
+            Score - Humà: ${humanScore}, Ordinador: ${computerScore}`;
+
+           if(humanScore === 5){
+    resultats.textContent = "Has guanyat! Humà 5 - Ordinador " + computerScore;
+}
+if(computerScore === 5){
+    resultats.textContent = "Has perdut! Humà " + humanScore + " - Ordinador 5";
+    buttons.forEach(button =>button.remove());
+}
+
+    });
+});
